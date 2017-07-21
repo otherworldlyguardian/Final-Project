@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import Background from './EVE_SSO_Login_Buttons_Large_Black.png'
 import './App.css'
+import items from './eve_typeID.json'
 
 const loginStyle = {
   width: 270,
   height: 45,
-  backgroundImage: `url(${Background})`
+  backgroundImage: `url(${Background})`,
+  marginTop: 300
 }
 
 class App extends Component {
@@ -68,10 +70,13 @@ class App extends Component {
       }
     })
     .then(resp => resp.json())
-    .then(data => this.setState({
-      location: data.solar_system_id
-    }))
-    console.log(this.state, 'location')
+    .then(data => {
+      fetch(`https://esi.tech.ccp.is/latest/universe/systems/${data.solar_system_id}/`)
+      .then(resp => resp.json())
+      .then(data => this.setState({
+        location: data.name
+      }))
+    })
     setTimeout(this.locationUpdate, 15000)
   }
 
@@ -84,9 +89,8 @@ class App extends Component {
     })
     .then(resp => resp.json())
     .then(data => this.setState({
-      ship: data.ship_type_id
+      ship: items.filter(item => item.TYPEID === data.ship_type_id)[0].TYPENAME
     }))
-    console.log(this.state, 'ship')
     setTimeout(this.shipUpdate, 15000)
   }
 
