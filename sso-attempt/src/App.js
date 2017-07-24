@@ -77,7 +77,7 @@ class App extends Component {
         location: data.name
       }))
     })
-    setTimeout(this.locationUpdate, 15000)
+    setTimeout(this.locationUpdate, 5000)
   }
 
   shipUpdate = () => {
@@ -88,10 +88,14 @@ class App extends Component {
       }
     })
     .then(resp => resp.json())
-    .then(data => this.setState({
-      ship: items.filter(item => item.TYPEID === data.ship_type_id)[0].TYPENAME
-    }))
-    setTimeout(this.shipUpdate, 15000)
+    .then(data => {
+      if (data.ship_type_id) {
+        this.setState({
+          ship: items.filter(item => item.TYPEID === data.ship_type_id)[0].TYPENAME
+        })
+      }
+    })
+    setTimeout(this.shipUpdate, 5000)
   }
 
   tokenRefresh = () => {
