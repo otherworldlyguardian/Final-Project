@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import LoggedInCard from './LoggedInCard'
-import SystemCardContainer from './SystemCardContainer'
+import Out from './Out'
+import In from './In'
 import items from './data/eve_typeID.json'
 import systems from './data/trimmedSS.json'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 class App extends Component {
   constructor() {
@@ -116,10 +117,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <LoggedInCard {...this.state}/>
-        <SystemCardContainer />
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Out} />
+          <Route path='/map' component={In} />
+        </Switch>
+      </Router>
     );
   }
 }
