@@ -23,7 +23,7 @@ const systems = [
 const SystemCardContainer = () => (
   <Container>
     <Card.Group>
-      {systems.map(system => <SystemCard {...system} />)}
+      {systems.map(system => <SystemCard {...system} key={system.childKey} />)}
     </Card.Group>
   </Container>
 )

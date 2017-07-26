@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import LoginCard from './LoginCard'
+import LoggedInCard from './LoggedInCard'
 import SystemCardContainer from './SystemCardContainer'
 import items from './data/eve_typeID.json'
 import systems from './data/trimmedSS.json'
@@ -117,7 +117,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <LoginCard />
+        <LoggedInCard />
         <SystemCardContainer />
       </div>
     );

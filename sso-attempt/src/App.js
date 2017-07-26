@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Background from './EVE_SSO_Login_Buttons_Large_Black.png'
 import './App.css'
 import items from './eve_typeID.json'
+import systems from './trimmedSS.json'
 
 const loginStyle = {
   width: 270,
@@ -71,11 +72,11 @@ class App extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      fetch(`https://esi.tech.ccp.is/latest/universe/systems/${data.solar_system_id}/`)
-      .then(resp => resp.json())
-      .then(data => this.setState({
-        location: data.name
-      }))
+      if (data.solar_system_id) {
+        this.setState({
+          location: systems.filter(system => system.SOLARSYSTEMID === data.solar_system_id)[0].SOLARSYSTEMNAME
+        })
+      }
     })
     setTimeout(this.locationUpdate, 5000)
   }
