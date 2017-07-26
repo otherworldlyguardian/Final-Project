@@ -122,9 +122,9 @@ class App extends Component {
   }
 
   render() {
-    if (window.location.search) {
-      this.auth()
-    }
+    // if (window.location.search) {
+    //   this.auth()
+    // }
     if (this.state.access_token) {
       return (
         <div>

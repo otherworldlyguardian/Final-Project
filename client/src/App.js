@@ -11,12 +11,12 @@ class App extends Component {
     this.state = {
       access_token: '',
       refresh_token: '',
-      character_id: '',
-      character_name: '',
+      character_id: '94121145',
+      character_name: 'Jesalina Nissem',
       corp_id: '',
       portrait: '',
-      location: '',
-      ship: ''
+      location: 'J100252',
+      ship: 'Cheetah'
     }
   }
 
@@ -117,7 +117,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <LoggedInCard />
+        <LoggedInCard {...this.state}/>
         <SystemCardContainer />
       </div>
     );
