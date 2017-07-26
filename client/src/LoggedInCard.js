@@ -25,7 +25,7 @@ class LoggedInCard extends Component {
   render() {
     return (
       <Segment>
-        <Button floated='right'>Logout</Button>
+        <Button floated='right' onClick={this.props.logout}>Logout</Button>
         <Item.Group items={this.state.items} />
       </Segment>
     )

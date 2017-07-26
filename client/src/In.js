@@ -21,7 +21,7 @@ class In extends Component {
   render() {
     return (
       <div>
-        <LoggedInCard {...this.state}/>
+        <LoggedInCard {...this.state} logout={this.props.logout} />
         <SystemCardContainer />
       </div>
     )

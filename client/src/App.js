@@ -1,29 +1,12 @@
 import React, { Component } from 'react'
 import Out from './Out'
 import In from './In'
+import Auth from './Auth'
 import items from './data/eve_typeID.json'
 import systems from './data/trimmedSS.json'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 class App extends Component {
-  constructor() {
-    super()
-
-    this.state = {
-      access_token: '',
-      refresh_token: '',
-      character_id: '94121145',
-      character_name: 'Jesalina Nissem',
-      corp_id: '',
-      portrait: '',
-      location: 'J100252',
-      ship: 'Cheetah'
-    }
-  }
-
-  clickRedirect = () => {
-    window.location.href='https://login.eveonline.com/oauth/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3001&client_id=5807703307a6437bbea7d880e591ed5a&scope=esi-location.read_online.v1%20esi-location.read_location.v1%20esi-location.read_ship_type.v1%20esi-ui.write_waypoint.v1%20esi-ui.open_window.v1&state=test123'
-  }
 
   auth = () => {
     var stateConstruct = {}
@@ -115,12 +98,24 @@ class App extends Component {
     setTimeout(this.tokenRefresh, 900000)
   }
 
+  logout = () => {
+    localStorage.removeItem('jwt')
+    this.forceUpdate()
+  }
+
   render() {
     return (
       <Router>
         <Switch>
           <Route exact path='/' component={Out} />
-          <Route path='/map' component={In} />
+          <Route path='/map' render={() => (
+            (localStorage.getItem('jwt')) ? (
+              <In logout={this.logout}/>
+            ) : (
+              <Redirect to="/"/>
+            )
+          )}/>
+          <Route path="/auth" component={Auth} />
         </Switch>
       </Router>
     );
