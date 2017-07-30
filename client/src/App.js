@@ -1,30 +1,30 @@
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import Out from './Out'
 import In from './In'
 import Auth from './Auth'
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { logIn } from './actions/logIn'
 
 class App extends Component {
 
-  logout = () => {
-    localStorage.removeItem('jwt')
-    this.forceUpdate()
-  }
-
   render() {
+    const { loggedIn } = this.props
+    if (localStorage.getItem('jwt')) this.props.logIn()
     return (
       <Router>
         <Switch>
           <Route exact path='/' render={() => (
-            (localStorage.getItem('jwt')) ? (
+            loggedIn ? (
               <Redirect to='/map'/>
             ) : (
               <Out />
             )
           )}/>
           <Route path='/map' render={() => (
-            (localStorage.getItem('jwt')) ? (
-              <In logout={this.logout}/>
+            loggedIn ? (
+              <In />
             ) : (
               <Redirect to="/"/>
             )
@@ -36,4 +36,14 @@ class App extends Component {
   }
 }
 
-export default App
+function mapStateToProps(state) {
+  return {
+    loggedIn: state.loggedIn
+  }
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({logIn: logIn}, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(App)
