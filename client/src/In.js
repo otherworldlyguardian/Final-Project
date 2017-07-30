@@ -12,11 +12,11 @@ class In extends Component {
     this.timerS = null
     this.timerT = null
     this.state = {
-      access_token: '',
+      access_token: 'lOsCuBDuDG2zzacO3s7cKRKKW-tIK2XG4fDulbkTR9FDcb1rDJOxmZ-ie2E2G-Kmeio9oBr9zMfykajOf-PHHw2',
       character_id: '94121145',
       character_name: 'Jesalina Nissem',
-      location: 'J100252',
-      ship: 'Cheetah'
+      location: '',
+      ship: ''
     }
   }
 

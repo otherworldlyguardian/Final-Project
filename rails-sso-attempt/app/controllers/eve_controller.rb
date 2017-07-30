@@ -17,14 +17,12 @@ class EveController < ApplicationController
         'Host' => 'login.eveonline.com'
         })
     corp_id = HTTParty.get("https://esi.tech.ccp.is/latest/characters/#{name_and_id['CharacterID']}/")
-    portrait = HTTParty.get("https://esi.tech.ccp.is/latest/characters/#{name_and_id['CharacterID']}/portrait/")
     render json: {
       access_token: codes['access_token'],
       refresh_token: codes['refresh_token'],
       character_id: name_and_id['CharacterID'],
       character_name: name_and_id['CharacterName'],
-      corp_id: corp_id['corporation_id'],
-      portrait: portrait['px128x128']
+      corp_id: corp_id['corporation_id']
     }
   end
 

@@ -2,31 +2,29 @@ import React, { Component } from 'react'
 import { Item, Segment, Button } from 'semantic-ui-react'
 
 class LoggedInCard extends Component {
-  constructor(props) {
-    super(props)
-
-    const { character_id, character_name, location, ship } = props
-    this.state = {
-      items: [
-        {
-          childKey: 0,
-          image: {
-            src: `http://image.eveonline.com/Character/${character_id}_512.jpg`,
-            size: 'tiny'
-          },
-          header: character_name,
-          description: ship,
-          meta: location
-        }
-      ]
-    }
-  }
 
   render() {
+    const { character_id, character_name, location, ship } = this.props
     return (
       <Segment>
         <Button floated='right' onClick={this.props.logout}>Logout</Button>
-        <Item.Group items={this.state.items} />
+        <Item.Group>
+          <Item>
+            <Item.Image size='tiny' src={`http://image.eveonline.com/Character/${character_id}_512.jpg`} />
+
+            <Item.Content>
+              <Item.Header>
+                {character_name}
+              </Item.Header>
+              <Item.Meta>
+                {location}
+              </Item.Meta>
+              <Item.Description>
+                {ship}
+              </Item.Description>
+            </Item.Content>
+          </Item>
+        </Item.Group>
       </Segment>
     )
   }

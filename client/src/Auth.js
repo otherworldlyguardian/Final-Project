@@ -26,9 +26,10 @@ class Auth extends Component {
       stateConstruct.access_token = data.access_token
       stateConstruct.character_id = data.character_id
       stateConstruct.character_name = data.character_name
-      this.setState({
-        ...stateConstruct
-      })
+      // this.setState({
+      //   ...stateConstruct
+      // })
+      console.log(stateConstruct.access_token)
       })
   }
 
