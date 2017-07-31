@@ -14,11 +14,6 @@ const divStyle = {
 }
 
 class Out extends Component {
-  constructor() {
-    super()
-
-    this.timer = null
-  }
 
   clickRedirect = () => {
     window.location.href='https://login.eveonline.com/oauth/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3001%2Fauth&client_id=5807703307a6437bbea7d880e591ed5a&scope=esi-location.read_online.v1%20esi-location.read_location.v1%20esi-location.read_ship_type.v1%20esi-ui.write_waypoint.v1%20esi-ui.open_window.v1&state=test123'

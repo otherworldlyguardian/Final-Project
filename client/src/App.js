@@ -9,9 +9,12 @@ import { logIn } from './actions/logIn'
 
 class App extends Component {
 
+  componentWillMount() {
+    if (localStorage.getItem('eve')) this.props.logIn()
+  }
+
   render() {
     const { loggedIn } = this.props
-    if (localStorage.getItem('jwt')) this.props.logIn()
     return (
       <Router>
         <Switch>

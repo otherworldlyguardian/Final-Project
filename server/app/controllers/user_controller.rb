@@ -23,7 +23,27 @@ class UserController < ApplicationController
       character_id: user.eve_id,
       character_name: user.username,
       corp_id: user.corp_id,
-      jwt: issue_token({id: user.id})
+      eve: issue_token({id: user.id})
+    }
+  end
+
+  def token_refresh
+    user = User.find(token_user_id)
+    codes = HTTParty.post('https://login.eveonline.com/oauth/token',
+      :body => {
+        :grant_type => 'refresh_token',
+        :refresh_token => user.refresh_token
+        },
+      :headers => {
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'Authorization' => 'Basic  NTgwNzcwMzMwN2E2NDM3YmJlYTdkODgwZTU5MWVkNWE6MTdXRHVnUFdQM2xmZzZUNkswR2ZBYUZkVVh2V2pMSFZ6enBpbjI2Sg==',
+        'Host' => 'login.eveonline.com'
+        })
+    render json: {
+      access_token: codes['access_token'],
+      character_id: user.eve_id,
+      character_name: user.username,
+      corp_id: user.corp_id
     }
   end
 
@@ -37,6 +57,15 @@ class UserController < ApplicationController
   end
 
   def get_corp id
-    HTTParty.get("https://esi.tech.ccp.is/latest/characters/#{id]}/")
+    HTTParty.get("https://esi.tech.ccp.is/latest/characters/#{id}/")
+  end
+
+  def logout
+    user = User.find(token_user_id)
+    user.refresh_token = ''
+    user.save
+    render json: {
+      logout: 'success'
+    }
   end
 end

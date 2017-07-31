@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { logIn } from './actions/logIn'
+import { updateInfo } from './actions/updateInfo'
 
 class Auth extends Component {
   componentWillMount() {
     this.auth(window.location.search.split('&')[0].split('=')[1])
-    localStorage.setItem('jwt', 'setting')
   }
 
   auth = (grant_code) => {
-    var stateConstruct = {}
-    fetch('http://localhost:3000/evedata', {
+    fetch('http://localhost:3000/grantcode', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -23,13 +25,13 @@ class Auth extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      stateConstruct.access_token = data.access_token
-      stateConstruct.character_id = data.character_id
-      stateConstruct.character_name = data.character_name
-      // this.setState({
-      //   ...stateConstruct
-      // })
-      console.log(stateConstruct.access_token)
+      localStorage.setItem('eve', data.eve)
+      this.props.updateInfo({
+        access_token: data.access_token,
+        character_id: data.character_id,
+        character_name: data.character_name
+      })
+      this.props.logIn()
       })
   }
 
@@ -40,4 +42,14 @@ class Auth extends Component {
   }
 }
 
-export default Auth
+function mapStateToProps(state) {
+  return {
+    charInfo: state.charInfo
+  }
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({updateInfo: updateInfo, logIn: logIn}, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Auth)

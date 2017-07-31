@@ -6,12 +6,20 @@ import { logOut } from './actions/logOut'
 
 class LoggedInCard extends Component {
   logout = () => {
-    localStorage.removeItem('jwt')
+    fetch('http://localhost:3000/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'Authorization': localStorage.getItem('eve')
+      }
+    })
+    localStorage.removeItem('eve')
     this.props.logOut()
   }
 
   render() {
-    const { character_id, character_name, location, ship } = this.props
+    const { character_id, character_name, location, ship } = this.props.charInfo
     return (
       <Segment>
         <Button floated='right' onClick={this.logout}>Logout</Button>
@@ -39,7 +47,8 @@ class LoggedInCard extends Component {
 
 function mapStateToProps(state) {
   return {
-    loggedIn: state.loggedIn
+    loggedIn: state.loggedIn,
+    charInfo: state.charInfo
   }
 }
 

@@ -19,7 +19,6 @@ class EveController < ApplicationController
     corp_id = HTTParty.get("https://esi.tech.ccp.is/latest/characters/#{name_and_id['CharacterID']}/")
     render json: {
       access_token: codes['access_token'],
-      refresh_token: codes['refresh_token'],
       character_id: name_and_id['CharacterID'],
       character_name: name_and_id['CharacterName'],
       corp_id: corp_id['corporation_id']
@@ -40,7 +39,10 @@ class EveController < ApplicationController
         })
     puts codes
     render json: {
-      access_token: codes['access_token']
+      access_token: codes['access_token'],
+      character_id: user.eve_id,
+      character_name: user.username,
+      corp_id: user.corp_id
     }
   end
 
