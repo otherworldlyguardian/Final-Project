@@ -5,9 +5,9 @@ import { updateInfo } from './actions/updateInfo'
 import { addSystem } from './actions/addSystem'
 import LoggedInCard from './LoggedInCard'
 import SystemCardContainer from './SystemCardContainer'
-// import items from './data/eve_typeID.json'
-// import systems from './data/trimmedSS.json'
-import ApiConn from './EVE-Api-connection'
+import items from './data/eve_typeID.json'
+import systems from './data/trimmedSS.json'
+// import ApiConn from './EVE-Api-connection'
 
 class In extends Component {
   constructor() {
@@ -19,49 +19,49 @@ class In extends Component {
   }
 
   componentWillMount() {
-    ApiConn.initializeClientUpdateInterval()
-    // this.timerL = setTimeout(this.locationUpdate, 5000)
-    // this.timerS = setTimeout(this.shipUpdate, 5000)
-    // this.tokenRefresh()
+    // ApiConn.initializeClientUpdateInterval()
+    this.timerL = setTimeout(this.locationUpdate, 5000)
+    this.timerS = setTimeout(this.shipUpdate, 5000)
+    this.tokenRefresh()
   }
 
-  // locationUpdate = () => {
-  //   const { character_id, access_token, location } = this.props.charInfo
-  //   fetch(`https://esi.tech.ccp.is/latest/characters/${character_id}/location/`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Authorization': `Bearer ${access_token}`
-  //     }
-  //   })
-  //   .then(resp => resp.json())
-  //   .then(data => {
-  //     if (data.solar_system_id) {
-  //       let system = systems.filter(system => system.SOLARSYSTEMID === data.solar_system_id)[0].SOLARSYSTEMNAME
-  //       if (location !== system && this.props.sysList.every(sys => (sys.name !== system))) {
-  //         console.log('here')
-  //         if (this.props.sysList.length === 0) {
-  //           console.log(system, 1.1);
-  //           this.props.addSystem({
-  //             name: system,
-  //             connection: 'Home'
-  //           })
-  //           console.log(this.props.sysList, 1.2);
-  //         } else {
-  //           console.log(system, 2.1);
-  //           this.props.addSystem({
-  //             name: system,
-  //             connection: location
-  //           })
-  //           console.log(this.props.sysList, 2.2);
-  //         }
-  //       }
-  //       this.props.updateInfo(Object.assign({}, this.props.charInfo, {
-  //         location: system
-  //       }))
-  //     }
-  //   })
-  //   this.timerL = setTimeout(this.locationUpdate, 5000)
-  // }
+  locationUpdate = () => {
+    const { character_id, access_token, location } = this.props.charInfo
+    fetch(`https://esi.tech.ccp.is/latest/characters/${character_id}/location/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      if (data.solar_system_id) {
+        let system = systems.filter(system => system.SOLARSYSTEMID === data.solar_system_id)[0].SOLARSYSTEMNAME
+        if (location !== system && this.props.sysList.every(sys => (sys.name !== system))) {
+          console.log('here')
+          if (this.props.sysList.length === 0) {
+            console.log(system, 1.1);
+            this.props.addSystem({
+              name: system,
+              connection: 'Home'
+            })
+            console.log(this.props.sysList, 1.2);
+          } else {
+            console.log(system, 2.1);
+            this.props.addSystem({
+              name: system,
+              connection: location
+            })
+            console.log(this.props.sysList, 2.2);
+          }
+        }
+        this.props.updateInfo(Object.assign({}, this.props.charInfo, {
+          location: system
+        }))
+      }
+    })
+    this.timerL = setTimeout(this.locationUpdate, 5000)
+  }
 
   shipUpdate = () => {
     const { character_id, access_token } = this.props.charInfo
@@ -103,10 +103,10 @@ class In extends Component {
   }
 
   componentWillUnmount() {
-    ApiConn.terminateIntervals()
-    // clearTimeout(this.timerL)
-    // clearTimeout(this.timerS)
-    // clearTimeout(this.timerT)
+    // ApiConn.terminateIntervals()
+    clearTimeout(this.timerL)
+    clearTimeout(this.timerS)
+    clearTimeout(this.timerT)
   }
 
   render() {
