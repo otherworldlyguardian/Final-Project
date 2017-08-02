@@ -5,12 +5,10 @@ import SystemCard from './SystemCard'
 
 class SystemCardContainer extends Component {
   render() {
-    console.log(this.props.sysList);
     return (
       <Container>
         <Card.Group>
           {this.props.sysList.map((system, i) => {
-            console.log(system)
             return <SystemCard {...system} key={i} />
           })
           }

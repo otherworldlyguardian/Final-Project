@@ -3,6 +3,8 @@ import { Item, Segment, Button } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { logOut } from './actions/logOut'
+import { resetMap } from './actions/resetMap'
+import { deleteMap } from './actions/deleteMap'
 
 class LoggedInCard extends Component {
   logout = () => {
@@ -18,11 +20,21 @@ class LoggedInCard extends Component {
     this.props.logOut()
   }
 
+  mapReset = () => {
+    this.props.resetMap()
+  }
+
+  mapDelete = () => {
+    this.props.deleteMap()
+  }
+
   render() {
     const { character_id, character_name, location, ship } = this.props.charInfo
     return (
       <Segment>
         <Button floated='right' onClick={this.logout}>Logout</Button>
+        <Button floated='right' onClick={this.mapReset}>Reset Map</Button>
+        <Button floated='right' onClick={this.mapDelete}>Delete Map</Button>
         <Item.Group>
           <Item>
             <Item.Image size='tiny' src={`http://image.eveonline.com/Character/${character_id}_512.jpg`} />
@@ -53,7 +65,7 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({logOut: logOut}, dispatch)
+  return bindActionCreators({logOut: logOut, resetMap: resetMap, deleteMap: deleteMap}, dispatch)
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(LoggedInCard)

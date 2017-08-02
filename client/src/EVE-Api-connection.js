@@ -1,5 +1,5 @@
 import items from './data/eve_typeID.json'
-import systems from './data/trimmedSS.json'
+import systems from './data/simplesystems.json'
 
 export const apiConn = {
   initializeClientUpdateInterval: function() {

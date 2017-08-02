@@ -5,8 +5,9 @@ import { updateInfo } from './actions/updateInfo'
 import { addSystem } from './actions/addSystem'
 import LoggedInCard from './LoggedInCard'
 import SystemCardContainer from './SystemCardContainer'
+import StarterSystem from './StarterSystem'
 import items from './data/eve_typeID.json'
-import systems from './data/trimmedSS.json'
+import systems from './data/simplesystem.json'
 // import ApiConn from './EVE-Api-connection'
 
 class In extends Component {
@@ -36,24 +37,18 @@ class In extends Component {
     .then(resp => resp.json())
     .then(data => {
       if (data.solar_system_id) {
-        let system = systems.filter(system => system.SOLARSYSTEMID === data.solar_system_id)[0].SOLARSYSTEMNAME
-        if (location !== system && this.props.sysList.every(sys => (sys.name !== system))) {
-          console.log('here')
-          if (this.props.sysList.length === 0) {
-            console.log(system, 1.1);
-            this.props.addSystem({
-              name: system,
-              connection: 'Home'
-            })
-            console.log(this.props.sysList, 1.2);
-          } else {
-            console.log(system, 2.1);
-            this.props.addSystem({
-              name: system,
-              connection: location
-            })
-            console.log(this.props.sysList, 2.2);
-          }
+        let system = systems.filter(system => system.systemID === data.solar_system_id)[0].systemName
+        if (location !== system && this.props.sysList.every(sys => (sys.name !== location)) && location !== undefined) {
+          this.props.addSystem({
+            name: location,
+            connection: system
+          })
+        }
+        if (location !== system && this.props.sysList.every(sys => (sys.name !== system)) && location !== undefined) {
+          this.props.addSystem({
+            name: system,
+            connection: location
+          })
         }
         this.props.updateInfo(Object.assign({}, this.props.charInfo, {
           location: system
@@ -110,6 +105,14 @@ class In extends Component {
   }
 
   render() {
+    if (this.props.sysList.length === 0) {
+      return (
+        <div>
+          <LoggedInCard />
+          <StarterSystem />
+        </div>
+      )
+    }
     return (
       <div>
         <LoggedInCard />
