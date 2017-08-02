@@ -7,7 +7,7 @@ class SystemCardContainer extends Component {
   render() {
     return (
       <Container>
-        <Card.Group>
+        <Card.Group itemsPerRow={6}>
           {this.props.sysList.map((system, i) => {
             return <SystemCard {...system} key={i} />
           })
